@@ -4,7 +4,7 @@
 %%
 
 [\n]				{ return 'NEWLINE'; }
-\s+                             {/* ignore */}
+((?=\s)[^\n])+                             {/* ignore */}
 \#[^\n]*			{/* ignore */}
 "def"				{ return 'DEF'; }
 "apagate"                       { return 'HALT'; }
