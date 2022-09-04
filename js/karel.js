@@ -117,6 +117,7 @@ Runtime.INC = 24;
 Runtime.CALL = 25;
 Runtime.RET = 26;
 Runtime.PARAM = 27;
+Runtime.PRINT = 28;
 
 Runtime.prototype.load = function (opcodes) {
   var self = this;
@@ -149,6 +150,7 @@ Runtime.prototype.load = function (opcodes) {
     'CALL',
     'RET',
     'PARAM',
+    'PRINT',
   ];
   var error_mapping = ['WALL', 'WORLDUNDERFLOW', 'BAGUNDERFLOW', 'INSTRUCTION'];
 
@@ -517,6 +519,15 @@ Runtime.prototype.next = function () {
           self.state.stack[
             self.state.fp + 3 + self.program[3 * self.state.pc + 1]
           ];
+        break;
+      }
+
+      case Runtime.PRINT: {
+        let value = self.state.stack[--self.state.sp];
+        self.fireEvent('print', {
+          target: self,
+          message: value,
+        });
         break;
       }
 
@@ -1625,6 +1636,8 @@ function detectLanguage(code) {
             return 'java';
           } else if (m[0].toLowerCase() == 'iniciar-programa') {
             return 'pascal';
+          } if (m[0] == 'programa') {
+            return 'kpp';
           } else {
             return 'ruby';
           }
@@ -1656,7 +1669,9 @@ function compile(code) {
     case 'ruby':
       parser = require('../js/karelruby.js').parse;
       break;
-
+    case 'kpp':
+      parser = require('../js/karelkpp.js').parse
+      break
     default:
       return null;
   }
