@@ -6,16 +6,16 @@ CodeMirror.defineMode('karelkpp', function () {
       return obj;
     }
     var keywords = words(
-      '!codigo si sino repetir mientras regresa metodo',
+      '!codigo si sino repetir while void metodo',
     );
     var indent = words(
       '{',
     );
     var dedent = words('}');
     var builtin = words(
-      'avanza giraIzquierda termina dejaZumbador cogeZumbador imprimir',
+        'avanza giraIzquierda termina dejaZumbador cogeZumbador imprimir',
     );
-    var operator = words('&& || ! iszero pred succ');
+    var operator = words('iszero pred succ');
     var atoms = words(
       'frenteLibre frenteBloqueado izquierdaLibre izquierdaBloqueada derechaLibre derechaBloqueada juntoAZumbador noJuntoAZumbador mochicaConZumbadores mochilaSinZumbadores orientadoAlNorte orientadoAlSur orientadoAlEste orientadoAlOeaste noOrientadoAlNorte orientadoAlSur noOrientadoAlSur noOrientadoAlNorte',
     );
@@ -33,6 +33,12 @@ CodeMirror.defineMode('karelkpp', function () {
       if (/[\(\);]/.test(ch)) {
         return null;
       }
+      if (stream.match("codigo", true)) {
+        return "keyword";
+      }
+      if (/[\!\&\|]/.test(ch)) {
+        return 'operator';
+      }
       if (/\d/.test(ch)) {
         stream.eatWhile(/[\w\.]/);
         return 'number';
@@ -47,8 +53,7 @@ CodeMirror.defineMode('karelkpp', function () {
       else if (indent.propertyIsEnumerable(cur)) style = 'indent';
       else if (dedent.propertyIsEnumerable(cur)) style = 'dedent';
       else if (
-        state.lastTok == 'void' ||
-        state.lastTok == 'define'
+        state.lastTok == 'metodo'
       )
         style = 'def';
       state.lastTok = cur;

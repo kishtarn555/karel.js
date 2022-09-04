@@ -176,18 +176,23 @@ case 29:
       .concat($$[$0-2]) 
       .concat([['JZ', 1+$$[$0].length]])
       .concat($$[$0])
-      .concat([['JMP', -1 -($$[$0-2].length+1+$$[$0].length)]])
+      .concat([['JMP', -1 -($$[$0-2].length+2+$$[$0].length)]])
       ;
     
 break;
 case 30:
 
-      this.$ = $$[$0-4]
-      .concat($$[$0-2])
-      .concat(['DUP'])
-      .concat(['JZ', 1+$$[$0].length])
+      this.$ = $$[$0-2]
+      .concat($$[$0-4])
+      .concat([
+        ['DUP'],
+        ['JZ', 2+$$[$0].length]])
       .concat($$[$0])
-      .concat('JMP', -1 - ($$[$0].length+1));      
+      .concat([
+        ['DEC'],
+        ['JMP', -1 - ($$[$0].length+4)],
+        ['POP']
+      ]);      
     
 break;
 case 31:

@@ -234,7 +234,7 @@ loop
       .concat($term) 
       .concat([['JZ', 1+$expr.length]])
       .concat($expr)
-      .concat([['JMP', -1 -($term.length+1+$expr.length)]])
+      .concat([['JMP', -1 -($term.length+2+$expr.length)]])
       ;
     }
 ;
@@ -242,12 +242,17 @@ loop
 repeat
   : REPEAT line LB integer RB expr
     {
-      $$ = $line
-      .concat($integer)
-      .concat(['DUP'])
-      .concat(['JZ', 1+$expr.length])
+      $$ = $integer
+      .concat($line)
+      .concat([
+        ['DUP'],
+        ['JZ', 2+$expr.length]])
       .concat($expr)
-      .concat('JMP', -1 - ($expr.length+1));      
+      .concat([
+        ['DEC'],
+        ['JMP', -1 - ($expr.length+4)],
+        ['POP']
+      ]);      
     }
 ;
 
