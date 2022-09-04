@@ -975,7 +975,7 @@ $(document).ready(function () {
   });
   $('#pascalsyntax').click(function (event) {
     // editor.getSession().setMode("ace/mode/karelpascal");
-    setKarelPascal();
+    setLanguage('pascal');
     editor.setValue(
       'iniciar-programa\n    inicia-ejecucion\n        { TODO poner codigo aquí }\n        apagate;\n    termina-ejecucion\nfinalizar-programa',
       1,
@@ -984,7 +984,7 @@ $(document).ready(function () {
     });
     $('#javasyntax').click(function (event) {
       // editor.getSession().setMode("ace/mode/kareljava");
-    setKarelJava();
+    setLanguage('java');
     editor.setValue(
       'class program {\n    program () {\n        // TODO poner codigo aqui\n        turnoff();\n    }\n}',
       1,
