@@ -6,12 +6,12 @@
 \s+                        {/* ignore */}
 \/\/[^\n]*			           {/* ignore */}
 \/\*(?:[^*]|\*(?!\/))*\*\/ {/* ignore */}
+"!codigo"                  { return 'PROG'; }
 "imprimir"                 { return 'PRINT'; }
-"programa"                 { return 'PROG'; }
 "principal"                { return 'MAIN'; }
 "metodo"                   { return 'DEF'; }
-"regresar"                 { return 'RET'; }
-"terminar"                 { return 'HALT'; }
+"regresa"                  { return 'RET'; }
+"termina"                  { return 'HALT'; }
 "giraIzquierda"            { return 'LEFT'; }
 "avanza"                   { return 'FORWARD'; }
 "cogeZumbador"             { return 'PICKBUZZER'; }
@@ -166,19 +166,19 @@ expr_list
 ;
 
 expr
-  : FORWARD LB RB SC
+  : FORWARD lend
     { $$ = [['LINE', yylineno], ['WORLDWALLS'], ['ORIENTATION'], ['MASK'], ['AND'], ['NOT'], ['EZ', 'WALL'], ['FORWARD']]; }
-  | LEFT LB RB SC
+  | LEFT lend
     { $$ = [['LINE', yylineno], ['LEFT']]; }
-  | PICKBUZZER LB RB SC
+  | PICKBUZZER lend
     { $$ = [['LINE', yylineno], ['WORLDBUZZERS'], ['EZ', 'WORLDUNDERFLOW'], ['PICKBUZZER']]; }
-  | LEAVEBUZZER LB RB SC
+  | LEAVEBUZZER lend
     { $$ = [['LINE', yylineno], ['BAGBUZZERS'], ['EZ', 'BAGUNDERFLOW'], ['LEAVEBUZZER']]; }
-  | HALT LB RB SC
+  | HALT lend
     { $$ = [['LINE', yylineno], ['HALT']]; }
-  | RET SC
+  | RET lend
     { $$ = [['LINE', yylineno], ['RET']]; }
-  | call SC
+  | call
     { $$ = $call; }
   | debugprint SC
     { $$ = $debugprint; }
@@ -194,22 +194,29 @@ expr
     { $$ = []; }
 ;
 
+lend
+  : LB RB SC 
+    {}
+  | SC
+    {}
+;
+
 call
-  : identifier LB RB 
+  : identifier lend
     { $$ = [['LINE', yylineno], ['LOAD', 0], ['CALL', $identifier, 1], ['LINE', yylineno]]; }
-  | identifier LB integer RB
+  | identifier LB integer RB SC
     { $$ = [['LINE', yylineno]].concat($integer).concat([['CALL', $identifier, 2], ['LINE', yylineno]]); }
 ;
 
 cond
-  : IF LB term RB expr %prec XIF
+  : IF line LB term RB expr %prec XIF
     { $$ = 
       $line
       .concat($term)
       .concat([['JZ', $expr.length]])
       .concat($expr); 
     }
-  | IF LB term RB expr ELSE expr
+  | IF line LB term RB expr ELSE expr
     { $$ = 
       $line
       .concat($term)
@@ -221,7 +228,7 @@ cond
 ;
 
 loop
-  : WHILE LB term RB expr 
+  : WHILE line LB term RB expr 
     { $$ = 
       $line
       .concat($term) 

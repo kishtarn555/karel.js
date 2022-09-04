@@ -68,6 +68,9 @@ $(document).ready(function () {
       case 'java':    
         setMode('kareljava')
         break;
+      case 'kpp':    
+        setMode('karelpp')
+        break;
     }
   }
 

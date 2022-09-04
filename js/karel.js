@@ -1621,8 +1621,8 @@ function detectLanguage(code) {
     /^(?:\/\*(?:[^*]|\*[^)])*\*\/)/,
     /^{[^}]*}/,
     /^\(\*([^*]|\*[^)])*\*\)/,
-    /^[^a-zA-Z0-9_-]+/,
-    /^[a-zA-Z0-9_-]+/,
+    /^[^\!a-zA-Z0-9_-]+/,
+    /^[\!a-zA-Z0-9_-]+/,
   ];
   var i = 0;
 
@@ -1636,7 +1636,7 @@ function detectLanguage(code) {
             return 'java';
           } else if (m[0].toLowerCase() == 'iniciar-programa') {
             return 'pascal';
-          } if (m[0] == 'programa') {
+          } if (m[0] == '!codigo') {
             return 'kpp';
           } else {
             return 'ruby';
