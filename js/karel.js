@@ -118,6 +118,8 @@ Runtime.CALL = 25;
 Runtime.RET = 26;
 Runtime.PARAM = 27;
 Runtime.PRINT = 28;
+Runtime.BEGSTRING = 29;
+Runtime.CHAR = 30;
 
 Runtime.prototype.load = function (opcodes) {
   var self = this;
@@ -151,6 +153,8 @@ Runtime.prototype.load = function (opcodes) {
     'RET',
     'PARAM',
     'PRINT',
+    'BEGSTRING',
+    'CHAR',
   ];
   var error_mapping = ['WALL', 'WORLDUNDERFLOW', 'BAGUNDERFLOW', 'INSTRUCTION'];
 
@@ -523,10 +527,29 @@ Runtime.prototype.next = function () {
       }
 
       case Runtime.PRINT: {
-        let value = self.state.stack[--self.state.sp];
+        function getString() {
+          let str = "";          
+          let len = self.program[3 * (++self.state.pc)+1];
+          for (let i = 0; i < len; i++) {
+            str = str + String.fromCharCode(self.program[3 * (++self.state.pc)+1]);
+          }
+          return str;
+        }
+        let msg = "message";
+        if (self.program[3 * self.state.pc+1] == 0) {
+          let value = self.state.stack[self.state.sp--];
+          msg=value.toString();
+        } else if (self.program[3 * self.state.pc+1]==1) {
+            msg = getString();
+        } else if (self.program[3 * self.state.pc+1]==2) {
+          let value = self.state.stack[self.state.sp--];
+          let str = getString();
+          msg =str.replace('%valor', value.toString());
+        } 
         self.fireEvent('print', {
           target: self,
-          message: value,
+          message: msg,
+          line: self.state.line,
         });
         break;
       }

@@ -160,6 +160,11 @@ $(document).ready(function () {
     world.runtime.addEventListener('start', function (evt) {
       var arreglo = $('#pila > div:first-child').remove();
     });
+    world.runtime.addEventListener('print', function (evt) {
+      $('#mensajes').trigger('info', {
+        mensaje: '['+(evt.line+1)+']: '  + evt.message ,
+      });
+    });
   }
 
   function getSyntax(str) {
@@ -379,7 +384,9 @@ $(document).ready(function () {
       END: '"}"',
       SC: '";"',
       NUM: 'un número',
-      VAR: 'un nombre',
+      VAR: '"variable"',
+      VAR: '"var"',
+      IDEN: 'un nombre',
       EOF: 'el final del programa',
     },
   };
@@ -991,6 +998,15 @@ $(document).ready(function () {
     );
     editor.focus();
   });
+  $('#kppsyntax').click(function (event) {
+    // editor.getSession().setMode("ace/mode/kareljava");
+  setLanguage('kpp');
+  editor.setValue(
+    '!codigo\n\nmetodo principal ()  {\n    // TODO poner codigo aqui\n    termina();\n}',
+    1,
+  );
+  editor.focus();
+});
   $('#retraso_minus').click(function () {
     var valor = $('#retraso_txt').val() * 1;
     if (valor >= 50) {

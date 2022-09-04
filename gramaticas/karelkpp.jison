@@ -6,6 +6,7 @@
 \s+                        {/* ignore */}
 \/\/[^\n]*			           {/* ignore */}
 \/\*(?:[^*]|\*(?!\/))*\*\/ {/* ignore */}
+\"[^\"\n]*\"               { return 'STRING'}
 "!codigo"                  { return 'PROG'; }
 "imprimir"                 { return 'PRINT'; }
 "principal"                { return 'MAIN'; }
@@ -57,6 +58,7 @@
 "{"                        { return 'BEGIN'; }
 "}"                        { return 'END'; }
 ";"                        { return 'SC'; }
+","                        { return 'COMMA'; }
 [0-9]+                     { return 'NUM'; }
 [a-zA-Z][a-zA-Z0-9_]*      { return 'IDEN'; }
 <<EOF>>                    { return 'EOF'; }
@@ -131,7 +133,7 @@ block
 
 def_list
   : def_list def
-    { $$ = $def_list.concat(def); }
+    { $$ = $def_list.concat($def); }
   | def
     { $$ = $def; }
 ;
@@ -141,20 +143,20 @@ def
     { $$ = [[$identifier, $line.concat($block).concat([['RET']]), 1]]; }
   | DEF line identifier LB VAR identifier RB block
     {
-      let res = $line.concat($block).concat([['RET']]);
-      for (let i = 0; i < res.length; i++) {
-        if (result[i][0]=='PARAM') {
-          if (result[i][1] == $6) {
-            result[i][1] =0;
-          } else {
-            yy.parser.parseError("Unknown variable: " + $6, {
-							text: $6,
-							line: yylineno,
-						});
+        let result = $line.concat($block).concat([['RET']]);
+        for (let i = 0; i < result.length; i++) {
+          if (result[i][0]=='PARAM') {
+            if (result[i][1] == $6) {
+              result[i][1] =0;
+            } else {
+              yy.parser.parseError("Unknown variable: " + $6, {
+                text: $6,
+                line: yylineno,
+              });
+            }
           }
         }
-        $$ = [[$identifier, res, 2]];
-      }
+        $$ = [[$identifier, result, 2]];      
     }
   ;
 
@@ -258,17 +260,27 @@ repeat
 
 debugprint
   : PRINT line LB integer RB
-  {
-    $$ = 
-    $line
-    .concat($integer)
-    .concat(['PRINT']);
-  }
-;
-
-identifier
-  : IDEN
-    { $$ = yytext; }
+    {
+      $$ = 
+      $line
+      .concat($integer)
+      .concat([['PRINT', 0]]);
+    }
+  | PRINT line LB string RB
+    {
+      $$ = 
+      $line
+      .concat([['PRINT', 1]])
+      .concat($string);
+    }
+  | PRINT line LB string COMMA integer RB
+    {
+      $$ = 
+      $line
+      .concat($integer)
+      .concat([['PRINT', 2]])
+      .concat($string);
+    }
 ;
 
 term
@@ -293,13 +305,13 @@ not_term
   ;
 
 clause
-  : IFZ '(' integer ')'
+  : IFZ LB integer RB
     { $$ = $integer.concat([['NOT']]); }
   | bool_fun
     { $$ = $bool_fun; }
-  | bool_fun '(' ')'
+  | bool_fun LB RB
     { $$ = $bool_fun; }
-  | '(' term ')'
+  | LB term RB
     { $$ = $term; }
   ;
 
@@ -342,15 +354,34 @@ bool_fun
     { $$ = [['ORIENTATION'], ['LOAD', 3], ['EQ'], ['NOT']]; }
   ;
 
+string
+  : STRING
+   { 
+    {
+      let res= [['BEGSTRING', (yytext.length-2)+1]];
+      for (let i =1; i < yytext.length-1; i++) {
+        res = res.concat([['CHAR', yytext.charCodeAt(i)]]);
+      }
+      res = res.concat([['CHAR', 0]]); //EOS
+      $$ = res;
+    }
+  }
+;
+
 integer
-  : var
-    { $$ = [['PARAM', $var]]; }
+  : identifier
+    { $$ = [['PARAM', $identifier]]; }
   | NUM
     { $$ = [['LOAD', parseInt(yytext)]]; }
-  | INC '(' integer ')'
+  | INC LB integer RB
     { $$ = $integer.concat([['INC']]); }
-  | DEC	 '(' integer ')'
+  | DEC	 LB integer RB
      { $$ = $integer.concat([['DEC']]); }
+;
+
+identifier
+  : IDEN
+    { $$ = yytext; }
 ;
 
 line

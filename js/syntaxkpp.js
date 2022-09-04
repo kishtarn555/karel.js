@@ -15,7 +15,7 @@ CodeMirror.defineMode('karelkpp', function () {
     var builtin = words(
         'avanza giraIzquierda termina dejaZumbador cogeZumbador imprimir',
     );
-    var operator = words('iszero pred succ');
+    var operator = words('esZero ant anterior sig siguiente');
     var atoms = words(
       'frenteLibre frenteBloqueado izquierdaLibre izquierdaBloqueada derechaLibre derechaBloqueada juntoAZumbador noJuntoAZumbador mochicaConZumbadores mochilaSinZumbadores orientadoAlNorte orientadoAlSur orientadoAlEste orientadoAlOeaste noOrientadoAlNorte orientadoAlSur noOrientadoAlSur noOrientadoAlNorte',
     );
