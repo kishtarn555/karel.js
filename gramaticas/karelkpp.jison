@@ -8,6 +8,7 @@
 \/\*(?:[^*]|\*(?!\/))*\*\/ {/* ignore */}
 \"[^\"\n]*\"               { return 'STRING'}
 "!codigo"                  { return 'PROG'; }
+"!importar"                { return 'IMPORT';}
 "imprimir"                 { return 'PRINT'; }
 "principal"                { return 'MAIN'; }
 "metodo"                   { return 'DEF'; }
@@ -69,6 +70,7 @@
 %nonassoc ELSE
 
 %{
+  
 function validate(function_list, program, yy) {
 	var functions = {};
 	var prototypes = {};
@@ -124,6 +126,48 @@ program
     { return validate($def_list, $block.concat([['LINE', yylineno], ['HALT']]), yy); }
   | PROG DEF MAIN LB RB block EOF
     { return validate([], $block.concat([['LINE', yylineno], ['HALT']]), yy); }
+  | PROG import_list def_list DEF MAIN LB RB block EOF
+    { 
+      return validate(
+        $def_list.concat($import_list),
+        $block.concat([['LINE', yylineno],
+        ['HALT']]),
+        yy
+      ); 
+    }
+    | PROG import_list DEF MAIN LB RB block EOF
+    { 
+      return validate(
+        $import_list,
+        $block.concat([['LINE', yylineno],
+        ['HALT']]),
+        yy
+      ); 
+    }
+;
+
+import_list
+  : import_list import
+    { $$ = $import_list.concat($import); }
+  | import
+    { $$ = $import; }
+;
+
+import
+  : IMPORT LB identifier RB SC
+    {    
+      switch($identifier) {
+        case 'karel_god':
+          $$ = karel_god('kpp');
+          break;
+        default:
+          yy.parser.parseError("Unknown variable: " + $identifier, {
+            text: $identifier,
+            line: 1
+          });
+          break;
+      }
+    }
 ;
 
 block

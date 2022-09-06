@@ -6,7 +6,7 @@ CodeMirror.defineMode('karelkpp', function () {
       return obj;
     }
     var keywords = words(
-      '!codigo si sino repetir while void metodo',
+      '!codigo si sino repetir while void metodo var variable',
     );
     var indent = words(
       '{',
@@ -33,7 +33,7 @@ CodeMirror.defineMode('karelkpp', function () {
       if (/[\(\);]/.test(ch)) {
         return null;
       }
-      if (stream.match("codigo", true)) {
+      if (stream.match(/(codigo)|(importar)/, true)) {
         return "keyword";
       }
       if (/[\!\&\|]/.test(ch)) {
