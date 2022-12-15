@@ -203,6 +203,11 @@
 </head>
 
 <body>
+    <div id="loadingModal" class="position-absolute w-100 h-100 bg-dark p-5" style="z-index: 400;">
+        <div class="text-center">
+            <p class="h1 bg-light p-4">Cargando...</p>
+        </div>
+    </div>
     <div class="container-fluid h-100 p-0">
         <div class="d-flex flex-column w-100 h-100 m-0 p-0">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom p-0">
@@ -271,8 +276,31 @@
                                     Opciones
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-plus"></i> Nuevo
-                                            Java</a>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="bi bi-palette"></i> Tema</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ayuda
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li>
+                                        <a class="dropdown-item" href="ayuda.html" target="_blank"><i class="bi bi-book"></i> Manual de trucos</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="https://omegaup.com/course/IntroduccionaKarel/"><i class="bi bi-journal-text"></i> Curso Karel Java</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="https://omegaup.com/course/omiags-curso-karel/"><i class="bi bi-journal-text"></i> Curso Karel Pascal</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">                                        
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="bi bi-info-circle"></i> Acerca de</a>
                                     </li>
                                 </ul>
                             </li>
@@ -281,114 +309,116 @@
                 </div>
             </nav>
 
-            <div id="desktopView" class=" position-relative flex-grow-1">
-                <div class="border-bottom bg-darkgray p-1">
-                    <div class="container">
-                        <div class="btn-toolbar m-1">
-                            <div class="btn-group me-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-arrow-clockwise"></i>
-                                </button>
-                            </div>
-                            <div class="btn-group me-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-microsoft"></i>
-                                </button>
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-play-fill"></i>
-                                </button>
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-skip-forward-fill"></i>
-                                </button>
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-eye-fill"></i>
-                                </button>
-                            </div>
-
-                            <div class="btn-group me-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-house-door-fill"></i>
-                                </button>
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-arrow-up"></i>
-                                </button>
-                            </div>
-
-                            <div class="input-group me-3" role="group" aria-label="Basic example">
-                                <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Mochila</small>
+            <div id="desktopView" class="flex-grow-1 m-0 p-0">
+                <div class="d-flex flex-column h-100 m-0 p-0">
+                    <div class="border-bottom bg-darkgray p-1">
+                        <div class="container">
+                            <div class="btn-toolbar m-1">
+                                <div class="btn-group me-3" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
                                 </div>
-                                <input type="number" id="beeperBag" class="form-control border-dark" aria-label=""
-                                    aria-describedby="btnGroupAddon" min="0" value="0">
-                                <button type="button" class="btn btn-light p-1 ps-3 pe-3 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-infinity"></i>
-                                </button>
-
-                            </div>
-
-
-                            <div class="input-group me-3" role="group" aria-label="Basic example">
-                                <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Filas</small></div>
-                                <input type="number" id="toolbarRows" class="form-control border-dark" aria-label=""
-                                    aria-describedby="btnGroupAddon" min="1" value="100">
-                                <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Mochila</small>
+                                <div class="btn-group me-3" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-microsoft"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-play-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-skip-forward-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
                                 </div>
-                                <input type="number" id="toolbarCols" class="form-control border-dark" aria-label=""
-                                    aria-describedby="btnGroupAddon" min="1" value="100">
 
-                            </div>
-                            <div class="btn-group me-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
-                                    title="Regresa el mundo a su estado original">
-                                    <i class="bi bi-list-check"></i> Evaluador
-                                </button>
+                                <div class="btn-group me-3" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-house-door-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-arrow-up"></i>
+                                    </button>
+                                </div>
+
+                                <div class="input-group me-3" role="group" aria-label="Basic example">
+                                    <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Mochila</small>
+                                    </div>
+                                    <input type="number" id="beeperBag" class="form-control border-dark" aria-label=""
+                                        aria-describedby="btnGroupAddon" min="0" value="0">
+                                    <button type="button" class="btn btn-light p-1 ps-3 pe-3 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-infinity"></i>
+                                    </button>
+
+                                </div>
+
+
+                                <div class="input-group me-3" role="group" aria-label="Basic example">
+                                    <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Filas</small></div>
+                                    <input type="number" id="toolbarRows" class="form-control border-dark" aria-label=""
+                                        aria-describedby="btnGroupAddon" min="1" value="100">
+                                    <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Mochila</small>
+                                    </div>
+                                    <input type="number" id="toolbarCols" class="form-control border-dark" aria-label=""
+                                        aria-describedby="btnGroupAddon" min="1" value="100">
+
+                                </div>
+                                <div class="btn-group me-3" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-light p-1 ps-2 pe-2 border-dark"
+                                        title="Regresa el mundo a su estado original">
+                                        <i class="bi bi-list-check"></i> Evaluador
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div id="splitter-container">
-                    <div class="split split-horizontal" id="splitter-left-pane">
-                        <div class="split content" id="splitter-left-top-pane">
-                            <textarea id="desktopEditor">
-iniciar-programa
-    inicia-ejecucion
-        { TODO poner codigo aqui }
-        apagate;
-    termina-ejecucion
-finalizar-programa</textarea>
-                        </div>
-                        <div class="split content tabbable flex-grow-1" id="splitter-left-bottom-pane">
-
-
-                            <!-- Only required for left/right tabs -->
-                            <ul class="nav nav-tabs">
-                                <li>
-                                    <a data-toggle="tab" href="#pila">Pila</a>
-                                </li>
-                                <li class="active">
-                                    <a data-toggle="tab" href="#mensajes">Mensajes <span
-                                            id="mensajes_cuenta"></span></a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane" id="pila">
-                                    <table class="table table-striped table-hover"></table>
+                    <div class="position-relative flex-grow-1">                    
+                        <div id="splitter-container">
+                            <div class="split split-horizontal" id="splitter-left-pane">
+                                <div class="split content" id="splitter-left-top-pane">
+                                    <textarea id="desktopEditor">
+        iniciar-programa
+            inicia-ejecucion
+                { TODO poner codigo aqui }
+                apagate;
+            termina-ejecucion
+        finalizar-programa</textarea>
                                 </div>
-                                <div class="tab-pane active" id="mensajes"></div>
+                                <div class="split content tabbable flex-grow-1" id="splitter-left-bottom-pane">
+
+
+                                    <!-- Only required for left/right tabs -->
+                                    <ul class="nav nav-tabs">
+                                        <li>
+                                            <a data-toggle="tab" href="#pila">Pila</a>
+                                        </li>
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#mensajes">Mensajes <span
+                                                    id="mensajes_cuenta"></span></a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane" id="pila">
+                                            <table class="table table-striped table-hover"></table>
+                                        </div>
+                                        <div class="tab-pane active" id="mensajes"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="split split-horizontal" id="splitter-right-pane">
+                                <canvas height="400" id="world" width="574"></canvas>
                             </div>
                         </div>
-                    </div>
-                    <div class="split split-horizontal" id="splitter-right-pane">
-                        <canvas height="400" id="world" width="574"></canvas>
                     </div>
                 </div>
             </div>
