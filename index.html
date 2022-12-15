@@ -210,7 +210,7 @@
     </div>
     <div class="container-fluid h-100 p-0">
         <div class="d-flex flex-column w-100 h-100 m-0 p-0">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-omega p-0">
                 <div class="container">
                     <a class="navbar-brand" href="#">Karel.js</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -288,19 +288,25 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li>
-                                        <a class="dropdown-item" href="ayuda.html" target="_blank"><i class="bi bi-book"></i> Manual de trucos</a>
+                                        <a class="dropdown-item" href="ayuda.html" target="_blank"><i
+                                                class="bi bi-book"></i> Manual de trucos</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="https://omegaup.com/course/IntroduccionaKarel/"><i class="bi bi-journal-text"></i> Curso Karel Java</a>
+                                        <a class="dropdown-item"
+                                            href="https://omegaup.com/course/IntroduccionaKarel/"><i
+                                                class="bi bi-journal-text"></i> Curso Karel Java</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="https://omegaup.com/course/omiags-curso-karel/"><i class="bi bi-journal-text"></i> Curso Karel Pascal</a>
+                                        <a class="dropdown-item"
+                                            href="https://omegaup.com/course/omiags-curso-karel/"><i
+                                                class="bi bi-journal-text"></i> Curso Karel Pascal</a>
                                     </li>
                                     <li>
-                                        <hr class="dropdown-divider">                                        
+                                        <hr class="dropdown-divider">
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#"><i class="bi bi-info-circle"></i> Acerca de</a>
+                                        <a class="dropdown-item" href="#"><i class="bi bi-info-circle"></i> Acerca
+                                            de</a>
                                     </li>
                                 </ul>
                             </li>
@@ -311,7 +317,7 @@
 
             <div id="desktopView" class="flex-grow-1 m-0 p-0">
                 <div class="d-flex flex-column h-100 m-0 p-0">
-                    <div class="border-bottom bg-darkgray p-1">
+                    <div class="border-bottom bg-light p-1">
                         <div class="container">
                             <div class="btn-toolbar m-1">
                                 <div class="btn-group me-3" role="group" aria-label="Basic example">
@@ -356,15 +362,32 @@
                                     <input type="number" id="beeperBag" class="form-control border-dark" aria-label=""
                                         aria-describedby="btnGroupAddon" min="0" value="0">
                                     <button type="button" class="btn btn-light p-1 ps-3 pe-3 border-dark"
-                                        title="Regresa el mundo a su estado original">
+                                        id="infiniteBeepersBtn" title="Regresa el mundo a su estado original">
                                         <i class="bi bi-infinity"></i>
                                     </button>
+                                </div>
 
+                                
+
+                                <div class="input-group me-3" role="group" aria-label="Basic example">
+                                    <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Retraso (ms)</small>
+                                    </div>
+                                    <input type="number" id="delayPanel" class="form-control border-dark" aria-label=""
+                                        aria-describedby="btnGroupAddon" min="0" value="0">
+                                        <button type="button" class="btn btn-light p-1 ps-1 pe-1 border-dark"
+                                            id="addDelayBtn" title="Regresa el mundo a su estado original">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-light p-1 ps-1 pe-1 border-dark"
+                                            id="removeDelayBtn" title="Regresa el mundo a su estado original">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
                                 </div>
 
 
                                 <div class="input-group me-3" role="group" aria-label="Basic example">
-                                    <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Filas</small></div>
+                                    <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Filas</small>
+                                    </div>
                                     <input type="number" id="toolbarRows" class="form-control border-dark" aria-label=""
                                         aria-describedby="btnGroupAddon" min="1" value="100">
                                     <div class="input-group-text bg-light border-dark ps-2 pe-2"><small>Mochila</small>
@@ -382,7 +405,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="position-relative flex-grow-1">                    
+                    <div class="position-relative flex-grow-1">
                         <div id="splitter-container">
                             <div class="split split-horizontal" id="splitter-left-pane">
                                 <div class="split content" id="splitter-left-top-pane">
@@ -423,8 +446,49 @@
                 </div>
             </div>
             <!-- PHONE VIEW -->
-            <div id="phoneView" class="p-1 position-relative flex-grow-1 position-absolute">
-                <textarea id="phoneEditor">lolazo</textarea>
+            <div id="phoneView" class="p-1 position-absolute mh-100 h-100 ">
+                <div class="d-flex flex-column h-100 mh-100">
+                    <div id="phoneToolbar" class="btn-toolbar border-bottom">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="bi bi-option"></i></button>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Editar código</a></li>
+                                <li><a class="dropdown-item" href="#">Editar mundo</a></li>
+                                <li><a class="dropdown-item" href="#">Ejecutar código</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="codePanel" class="overflow-hidden flex-grow-1">
+                        <div class="position-relative w-100 h-100">
+                            <div class="mh-100 position-absolute overflow-hidden" style="top: 0px; bottom: 0px; left: 0px; right: 0px;">
+                                    <textarea id="phoneEditor" class="">lolazo
+
+                                        pataso
+                                    </textarea>
+                            </div>
+                        </div>
+                            
+                    </div>
+                    <div class="btn-toolbar mt-2 border-top">
+                        <div class="btn-group dropup">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Inst.
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>Avanza</li>
+                                <li>Gira izquierda</li>
+                                <li>Deja zumbador</li>
+                                <li>Coge zumbador</li>
+                                <li>Apagate</li>
+                                <li>Sal de instrucción</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -84,7 +84,7 @@ function setFileNameLink() {
     } else {
         $("#wrongCodeName").attr("hidden", "");
     }
-    let blob = new Blob([editor.getValue()], { type: 'text/xml' });
+    let blob = new Blob([editor.getValue()], { type: 'text/plain'});
     $("#downloadCode").attr("href", window.URL.createObjectURL(blob));
     $("#downloadCode").attr("download", newFilename);
 }
@@ -120,3 +120,18 @@ function recalcDimensions() {
     $("#phoneView").removeClass( "position-absolute" );
     $("#loadingModal").remove();
   });
+
+  $("#infiniteBeepersBtn").click(()=>{
+        if ($("#beeperBag").attr("hidden")!== undefined) { 
+            $("#beeperBag").removeAttr("hidden");
+            $("#beeperBag").val("0");
+            $("#infiniteBeepersBtn").removeClass("btn-danger");
+            
+            $("#infiniteBeepersBtn").addClass("btn-light");            
+        } else {
+            $("#beeperBag").attr("hidden", "");
+            $("#beeperBag").val("-1");
+            $("#infiniteBeepersBtn").removeClass("btn-light");            
+            $("#infiniteBeepersBtn").addClass("btn-danger");
+        }
+});

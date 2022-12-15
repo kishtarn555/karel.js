@@ -2,14 +2,14 @@ html, body {
     height: 100%;
 }
 
-#beeperBag, #toolbarRows, #toolbarCols {
+#beeperBag, #toolbarRows, #toolbarCols, #delayPanel {
     width: 9ch;
 }
 
 .bg-darkgray {
-    background-color: lightgray;
+    background-color: #466aaf;
 }
 
-.bg-gray {
-    background-color: rgb(81, 90, 93);
+.bg-omega {
+    background-color: #678dd7;
 }
