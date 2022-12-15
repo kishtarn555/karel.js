@@ -1,0 +1,105 @@
+function getTheme() {
+    return (
+      (typeof sessionStorage !== 'undefined' &&
+        sessionStorage.getItem('karel.js:theme')) ||
+      'karel'
+    );
+  }
+
+
+function createditor(id) {
+    let editor = CodeMirror.fromTextArea(document.getElementById(id), {
+        lineNumbers: true,
+        firstLineNumber: 1,
+        styleActiveLine: true,
+        viewportMargin: Infinity,
+        mode: 'karelpascal',
+        theme: getTheme(),
+        foldGutter: {
+            rangeFinder: CodeMirror.fold.indent,
+        },
+        gutters: [
+            'CodeMirror-foldgutter',
+            'errors',
+            'breakpoints',
+            'CodeMirror-linenumbers',
+        ],
+    });
+    editor.numBreakpoints = 0;
+    editor.on('gutterClick', function (instance, line, gutter, clickEvent) {
+        if (gutter == 'CodeMirror-foldgutter') return;
+        function makeBreakpoint() {
+            var marker = document.createElement('div');
+            marker.style.color = '#822';
+            marker.innerHTML = '●';
+            return marker;
+        }
+        var markers = instance.lineInfo(line).gutterMarkers;
+        if (markers && markers.breakpoints) {
+            instance.setGutterMarker(line, 'breakpoints', null);
+            editor.numBreakpoints--;
+        } else {
+            instance.setGutterMarker(line, 'breakpoints', makeBreakpoint());
+            editor.numBreakpoints++;
+        }
+    });
+    
+    return editor;
+}
+// Iniciar co editor
+let desktopEditor = createditor("desktopEditor");
+let phoneEditor = createditor("phoneEditor");
+let editor = desktopEditor;
+
+
+
+function validatorCallbacks(message) {
+    if (message.type == 'error') {
+        $('#mensajes').trigger('error', { mensaje: message.message });
+    } else if (message.type == 'info') {
+        $('#mensajes').trigger('info', { mensaje: message.message });
+    } else if (message.type == 'invalidCell') {
+        $('#mensajes').trigger('error', {
+            mensaje: 'La celda (' + message.x + ', ' + message.y + ') es inválida',
+        });
+    } else {
+        console.error('Mensaje no reconocido', message);
+    }
+}
+
+
+// Save Modal code
+const fileRegex = /^[a-zA-Z0-9._]+$/;
+function setFileNameLink() {
+    let newFilename = $("#codeName").val();    
+    if (!fileRegex.test(newFilename)) {
+        $("#wrongCodeName").removeAttr("hidden");
+        newFilename="code.txt";
+    } else {
+        $("#wrongCodeName").attr("hidden", "");
+    }
+    let blob = new Blob([editor.getValue()], { type: 'text/xml' });
+    $("#downloadCode").attr("href", window.URL.createObjectURL(blob));
+    $("#downloadCode").attr("download", newFilename);
+}
+$( "#saveCodeModal" ).on('shown', setFileNameLink);
+$("#codeName").change(setFileNameLink)
+
+
+function recalcDimensions() {
+    world.width = $('#splitter-right-pane').width();
+    world.height = $('#splitter-right-pane').height();
+    // wRender.paint(mundo, world.width, world.height, {
+    //   editable: mundo_editable,
+    // });
+  }
+  Split(['#splitter-left-pane', '#splitter-right-pane'], {
+    sizes: [30, 70],
+    onDragEnd: recalcDimensions,
+  });
+  Split(['#splitter-left-top-pane', '#splitter-left-bottom-pane'], {
+    sizes: [70, 30],
+    direction: 'vertical',
+  });
+   recalcDimensions();
+  $(window).resize(recalcDimensions);
