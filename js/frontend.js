@@ -47,9 +47,15 @@ function createditor(id) {
     return editor;
 }
 // Iniciar co editor
-let desktopEditor = createditor("desktopEditor");
-let phoneEditor = createditor("phoneEditor");
+let desktopEditor;
+let phoneEditor;
 let editor = desktopEditor;
+
+function setEditors() {
+    desktopEditor = createditor("desktopEditor");
+    phoneEditor = createditor("phoneEditor");
+    editor=desktopEditor;
+}
 
 
 
@@ -103,3 +109,13 @@ function recalcDimensions() {
   });
    recalcDimensions();
   $(window).resize(recalcDimensions);
+
+
+  $(document).ready(()=> {
+    setEditors();
+    //Weird responsive hack
+    $("#phoneView").addClass( "d-lg-none" );
+    $("#desktopView").addClass( "d-none" );
+    $("#desktopView").addClass( "d-lg-block");
+    $("#phoneView").removeClass( "position-absolute" );
+  });
