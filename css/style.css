@@ -13,3 +13,10 @@ html, body {
 .bg-omega {
     background-color: #678dd7;
 }
+
+.fillPanel {
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
