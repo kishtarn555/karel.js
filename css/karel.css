@@ -12,3 +12,7 @@
 
 .cm-s-karel .CodeMirror-activeline-background {background: #e8f2ff !important;}
 .cm-s-karel .CodeMirror-matchingbracket {outline:1px solid grey;color:black !important;background:yellow;}
+
+.cm-editor .cm-content {
+    font-size:medium;
+}

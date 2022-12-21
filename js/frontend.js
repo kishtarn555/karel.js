@@ -8,6 +8,7 @@ function getTheme() {
 
 
 function createditor(id) {
+    return
     let editor = CodeMirror.fromTextArea(document.getElementById(id), {
         lineNumbers: true,
         firstLineNumber: 1,
