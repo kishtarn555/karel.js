@@ -148,4 +148,4 @@ function setLine(str) {
 
 
 
-$("#pAvanza").click(()=>typeCode('avanza;'))
+$("#pAvanza").click(()=>setLine('avanza;'))
