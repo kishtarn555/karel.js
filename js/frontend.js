@@ -54,6 +54,7 @@ let editor = desktopEditor;
 function setEditors() {
     desktopEditor = createditor("desktopEditor");
     phoneEditor = createditor("phoneEditor");
+    // phoneEditor.setOption('readOnly', true);
     editor=desktopEditor;
 }
 
@@ -135,3 +136,16 @@ function recalcDimensions() {
             $("#infiniteBeepersBtn").addClass("btn-danger");
         }
 });
+
+
+// =================== Mobile code =====================
+
+
+function setLine(str) {
+    phoneEditor.replaceSelection(str);
+}
+
+
+
+
+$("#pAvanza").click(()=>typeCode('avanza;'))
